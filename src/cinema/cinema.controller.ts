@@ -16,7 +16,7 @@ import { Cinema } from './entities/cinema.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from 'src/logger/logger.service';
 import { Response } from 'express';
-import { Messages } from 'src/constant/Messages';
+import { Messages } from 'src/constant/Constant';
 
 @ApiTags('Cinema')
 @Controller('cinema')
@@ -38,6 +38,7 @@ export class CinemaController {
             `${cinema.name} or ${cinema.address} ` + Messages.DUPLICATE_DATA,
           status: HttpStatus.CONFLICT,
         });
+        return;
       }
       const data = await this.cinemaService.create(cinema);
       res.status(HttpStatus.CREATED).send({
@@ -49,7 +50,6 @@ export class CinemaController {
       this.logger.error(e);
       throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return this.cinemaService.create(cinema);
   }
 
   @Get()
@@ -93,7 +93,7 @@ export class CinemaController {
     @Res() res: Response,
   ): Promise<void> {
     try {
-      console.log(cinema)
+      console.log(cinema);
       const data = await this.cinemaService.update(id, cinema);
       if (!data) {
         res.status(HttpStatus.NOT_FOUND).send({

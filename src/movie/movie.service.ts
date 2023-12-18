@@ -7,10 +7,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 export class MovieService {
   constructor(
     @InjectRepository(Movie)
-    private readonly movieRepository: Repository<Movie>
-  ){}
-  async create(data: Movie): Promise<Movie> {
-    return this.movieRepository.save(data);
+    private readonly movieRepository: Repository<Movie>,
+  ) {}
+  async create(data: Movie, files): Promise<Movie> {
+    const { banner, trailer } = files;
+    const movie = {
+      ...data,
+      trailer: trailer[0].originalname,
+      banner: banner[0].originalname,
+    };
+
+    return this.movieRepository.save(movie);
   }
 
   async findAll(): Promise<Movie[]> {
@@ -18,12 +25,21 @@ export class MovieService {
   }
 
   async findOne(id: number): Promise<Movie> {
-    return this.movieRepository.findOne({where: {id}});
+    return this.movieRepository.findOne({ 
+      where: { id }
+    });
   }
 
-  async update(id: number, data: Movie): Promise<Movie> {
-    await this.movieRepository.update(id, data)
-    return this.movieRepository.findOne({ where: {id}});
+  async update(id: number, data: Movie, files): Promise<Movie> {
+    const { banner, trailer } = files;
+    const movie = {
+      banner: banner[0].originalname,
+      trailer: trailer[0].originalname,
+      ...data,
+    };
+
+    await this.movieRepository.update(id, movie);
+    return this.movieRepository.findOne({ where: { id } });
   }
 
   async remove(id: number): Promise<any> {
@@ -31,18 +47,14 @@ export class MovieService {
   }
 
   async restore(id: number): Promise<Movie> {
-    await this.movieRepository.restore(id)
-    return this.movieRepository.findOne({where: {id}, withDeleted: true})
+    await this.movieRepository.restore({ id });
+    return this.movieRepository.findOne({ where: { id }, withDeleted: true });
   }
 
-  async search(data): Promise<Movie[]> {
-    return this.movieRepository.find({
-      where: {
-        movie_name: data.movie_name,
-        banner: data.banner,
-        description: data.description,
-        trailer: data.trailer
-      }
-    })
+  async search(query: Movie): Promise<Movie[]> {
+    return this.movieRepository
+      .createQueryBuilder('Movie')
+      .where('Movie.movie_name LIKE :value', { value: `%${query.movie_name}%` })
+      .getMany();
   }
 }

@@ -14,7 +14,7 @@ import {
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
-import { Messages } from 'src/constant/Messages';
+import { Messages } from 'src/constant/Constant';
 import { Response } from 'express';
 import { LoggerService } from 'src/logger/logger.service';
 
@@ -45,11 +45,12 @@ export class UserController {
   @Get('/detail/:id')
   async findOne(@Param('id') id: number, @Res() res: Response): Promise<void> {
     try {
-      const data = this.userService.findOne(id);
+      const data = await this.userService.findOne(id);
       if (!data) {
         res.status(HttpStatus.NOT_FOUND).send({
           message: Messages.NOT_FOUND + ` #${id}`,
         });
+        return;
       }
       res.status(HttpStatus.OK).send({
         data: data,

@@ -16,7 +16,7 @@ import { Type } from './entities/type.entity';
 import { LoggerService } from './../logger/logger.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { Messages } from 'src/constant/Messages';
+import { Messages } from 'src/constant/Constant';
 
 @ApiTags('Type')
 @Controller('type')

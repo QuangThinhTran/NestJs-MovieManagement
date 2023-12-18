@@ -12,12 +12,11 @@ import { Response } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from './../user/user.service';
-import { Messages } from 'src/constant/Messages';
+import { Messages } from 'src/constant/Constant';
 import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from 'src/logger/logger.service';
 import { Auth } from './enities/auth.enity';
 import { AuthService } from './auth.service';
-import { TokenBlacklistService } from 'src/services/TokenBlacklist.service';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -26,7 +25,6 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly userService: UserService,
     private readonly logger: LoggerService,
-    private readonly backlist: TokenBlacklistService,
   ) {
     this.logger.setContext('AuthService');
   }

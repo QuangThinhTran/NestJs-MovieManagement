@@ -5,6 +5,7 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -34,9 +35,10 @@ export class User {
   password: string;
 
   @ApiProperty()
-  @OneToOne(() => Role, (role) => role.id)
-  @JoinColumn()
-  role_id: number;
+  @ManyToOne(() => Role)
+  @JoinColumn({name: 'role_id'})
+  @Column()
+  role_id: Role;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

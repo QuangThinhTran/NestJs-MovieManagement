@@ -37,10 +37,9 @@ export class RoleService {
   }
 
   async search(query: Role): Promise<Role[]> {
-    return this.roleRepository.find({
-      where: {
-        name: query.name,
-      },
-    });
+    return this.roleRepository
+      .createQueryBuilder('Role')
+      .where('Role.name LIKE :name', { name: `%${query.name}%` })
+      .getMany();
   }
 }

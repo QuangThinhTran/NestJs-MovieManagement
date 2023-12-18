@@ -10,6 +10,7 @@ import { LoggerModule } from './logger/logger.module';
 import { CinemaModule } from './cinema/cinema.module';
 import { TypeModule } from './type/type.module';
 import { MovieModule } from './movie/movie.module';
+import { ListTypeModule } from './list-type/list-type.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MovieModule } from './movie/movie.module';
     CinemaModule,
     TypeModule,
     MovieModule,
+    ListTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService, TimezoneService],

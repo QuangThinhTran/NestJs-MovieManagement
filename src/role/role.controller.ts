@@ -16,7 +16,7 @@ import { RoleService } from './role.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { Role } from './entities/role.entity';
-import { Messages } from 'src/constant/Messages';
+import { Messages } from 'src/constant/Constant';
 import { LoggerService } from 'src/logger/logger.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -39,6 +39,7 @@ export class RoleController {
           message: `${newRole.name} ` + Messages.DUPLICATE_DATA,
           status: HttpStatus.CONFLICT,
         });
+        return;
       }
 
       const data = await this.roleService.create(newRole);

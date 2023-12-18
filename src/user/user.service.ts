@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Auth } from 'src/auth/enities/auth.enity';
 
 @Injectable()
 export class UserService {
@@ -18,7 +17,10 @@ export class UserService {
   }
 
   async findOne(id: number): Promise<any> {
-    return this.userRepository.findOne({ where: { id } });
+    return this.userRepository.findOne({ 
+      where: { id },
+      relations: ['role_id']
+    });
   }
 
   async update(id: number, user: User): Promise<User> {
@@ -36,11 +38,13 @@ export class UserService {
     return this.userRepository.findOne({ where: { id } });
   }
 
-  async search(query: User | Auth): Promise<any> {
-    return this.userRepository.findOne({
-      where: {
-        username: query.username,
-      },
-    });
+  async search(query: User): Promise<any> {
+    return this.userRepository
+      .createQueryBuilder('User')
+      .where('User.username LIKE :username', {
+        username: `%${query.username}%`,
+      })
+      .orWhere('User.email LIKE :email', { email: `%${query.email}%` })
+      .getMany();
   }
 }

@@ -8,7 +8,6 @@ import { LoggerService } from 'src/logger/logger.service';
 import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from './../strategy/JWT.strategy';
 import * as dotenv from 'dotenv';
-import { TokenBlacklistService } from 'src/services/TokenBlacklist.service';
 dotenv.config();
 
 @Module({
@@ -20,12 +19,6 @@ dotenv.config();
     }),
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    UserService,
-    LoggerService,
-    TokenBlacklistService,
-    LocalStrategy,
-  ],
+  providers: [AuthService, UserService, LoggerService, LocalStrategy],
 })
 export class AuthModule {}

@@ -39,11 +39,6 @@ export class CreateTableListType1699451030007 implements MigrationInterface {
               type: 'datetime',
               isNullable: true,
             },
-            {
-              name: 'deleted_at',
-              type: 'datetime',
-              isNullable: true,
-            },
           ],
         }),
       );

@@ -37,11 +37,10 @@ export class CinemaService {
   }
 
   async search(data: Cinema): Promise<Cinema[]> {
-    return this.cinemaRepository.find({
-      where: {
-        name: data.name,
-        address: data.address,
-      },
-    });
+    return this.cinemaRepository
+      .createQueryBuilder('Cinema')
+      .where('Cinema.name LIKE :name', { name: `%${data.name}%` })
+      .orWhere('Cinema.address LIKE :address', { address: `%${data.address}%` })
+      .getMany();
   }
 }
