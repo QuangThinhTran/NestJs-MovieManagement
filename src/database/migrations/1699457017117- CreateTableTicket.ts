@@ -35,6 +35,11 @@ export class CreateTableTicket1699457017117 implements MigrationInterface {
               isNullable: true,
             },
             {
+              name: 'user_id',
+              type: 'int',
+              isNullable: true,
+            },
+            {
               name: 'created_at',
               type: 'datetime',
               default: 'now()',
@@ -49,6 +54,15 @@ export class CreateTableTicket1699457017117 implements MigrationInterface {
           columnNames: ['movie_show_time_id'],
           referencedColumnNames: ['id'],
           referencedTableName: 'movie_show_time',
+        }),
+      );
+
+      await queryRunner.createForeignKey(
+        'ticket',
+        new TableForeignKey({
+          columnNames: ['user_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'user',
         }),
       );
     } catch (error) {

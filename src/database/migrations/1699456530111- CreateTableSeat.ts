@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from 'typeorm';
 
 export class CreateTableSeat1699456530111 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -27,6 +27,11 @@ export class CreateTableSeat1699456530111 implements MigrationInterface {
             },
             {
               name: 'status',
+              type: 'boolean',
+              isNullable: true,
+            },
+            {
+              name: 'movie_showtime_id',
               type: 'int',
               isNullable: true,
             },
@@ -46,6 +51,24 @@ export class CreateTableSeat1699456530111 implements MigrationInterface {
               isNullable: true,
             },
           ],
+        }),
+      );
+
+      await queryRunner.createForeignKey(
+        'seat',
+        new TableForeignKey({
+          columnNames: ['movie_showtime_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'movie_show_time',
+        }),
+      );
+
+      await queryRunner.createForeignKey(
+        'seat',
+        new TableForeignKey({
+          columnNames: ['movie_theater_id'],
+          referencedColumnNames: ['id'],
+          referencedTableName: 'movie_theater',
         }),
       );
     } catch (error) {

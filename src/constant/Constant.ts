@@ -11,8 +11,18 @@ export enum Messages {
   DUPLICATE_DATA = 'is exists',
   MOVIE_NOW_SHOWING = 'Now showing',
   MOVIE_NOT_SHOWING = 'Stop showing',
+  MOVIE_THEATER_ACTIVE = 'Active',
+  MOVIE_THEATER_INACTIVE = 'Inactive',
+  STATUS_SEAT_BOOKED = 'Booked',
+  STATUS_SEAT_BOOK = `Haven't booked yet`,
+  TYPE_SEAT_VIP = 'V.I.P',
+  TYPE_SEAT_NOMAL = 'Nomal'
 }
 export enum Constant {
   STATUS_MOVIE_ACTIVE = 1,
   STATUS_MOVIE_INACTIVE = 0,
+  STATUS_MOVIE_THEATER_ACTIVE = 1,
+  STATUS_MOVIE_THEATER_INACTIVE = 0,
+  TYPE_SEAT_VIP = 1,
+  TYPE_SEAT_NOMAL = 2
 }

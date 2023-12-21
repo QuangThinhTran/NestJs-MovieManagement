@@ -99,6 +99,7 @@ export class TypeController {
           message: Messages.NOT_FOUND,
           status: HttpStatus.NOT_FOUND,
         });
+        return;
       }
 
       res.status(HttpStatus.OK).send({

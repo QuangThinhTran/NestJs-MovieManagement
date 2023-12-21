@@ -10,7 +10,7 @@ export class CinemaService {
     private readonly cinemaRepository: Repository<Cinema>,
   ) {}
 
-  async create(data: Cinema): Promise<any> {
+  async create(data: Cinema): Promise<Cinema> {
     return this.cinemaRepository.save(data);
   }
 
@@ -34,6 +34,15 @@ export class CinemaService {
   async restore(id: number): Promise<Cinema> {
     await this.cinemaRepository.restore({ id });
     return this.cinemaRepository.findOne({ where: { id }, withDeleted: true });
+  }
+
+  async existCinema(data: Cinema): Promise<Cinema> {
+    return this.cinemaRepository.findOne({ 
+      where: { 
+          name: data.name,
+          address: data.address
+       }
+    });
   }
 
   async search(data: Cinema): Promise<Cinema[]> {

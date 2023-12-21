@@ -10,16 +10,16 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findAll(): Promise<any> {
+  async findAll(): Promise<User[]> {
     return this.userRepository.find({
       relations: ['role_id'],
     });
   }
 
-  async findOne(id: number): Promise<any> {
-    return this.userRepository.findOne({ 
+  async findOne(id: number): Promise<User> {
+    return this.userRepository.findOne({
       where: { id },
-      relations: ['role_id']
+      relations: ['role_id'],
     });
   }
 
@@ -36,6 +36,16 @@ export class UserService {
   async restore(id: number): Promise<User> {
     await this.userRepository.restore(id);
     return this.userRepository.findOne({ where: { id } });
+  }
+
+  async checkExist(data: User): Promise<User>
+  {
+    return this.userRepository.findOne({
+      where: {
+        username: data.username,
+        email: data.username
+      }
+    })
   }
 
   async search(query: User): Promise<any> {

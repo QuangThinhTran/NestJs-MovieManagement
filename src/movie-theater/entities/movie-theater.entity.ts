@@ -4,40 +4,23 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
-import { Role } from 'src/role/entities/role.entity';
 
-@Entity('user')
-export class User {
+@Entity('movie_theater')
+export class MovieTheater {
   @ApiProperty()
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty()
-  @Column({ unique: true })
-  username: string;
+  @Column()
+  name: string;
 
   @ApiProperty()
-  @IsEmail()
-  @IsNotEmpty()
-  @Column({ unique: true })
-  email: string;
-
-  @IsNotEmpty()
-  @MinLength(6)
   @Column()
-  password: string;
-
-  @ApiProperty()
-  @ManyToOne(() => Role)
-  @JoinColumn({ name: 'role_id' })
-  @Column()
-  role_id: Role;
+  status: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

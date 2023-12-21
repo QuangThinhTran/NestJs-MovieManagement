@@ -1,15 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { ListType } from 'src/list-type/entities/list-type.entity';
-import { Type } from 'src/type/entities/type.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -39,7 +34,7 @@ export class Movie {
 
   @ApiProperty()
   @Column({ type: 'integer' })
-  status: any ;
+  status: any;
 
   // @ManyToMany(() => Type, (type) => type.movies)
   // @JoinTable({
@@ -49,7 +44,7 @@ export class Movie {
   // })
   // types?: Type[];
 
-  type_id: number
+  type_id: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

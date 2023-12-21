@@ -6,10 +6,10 @@ import {
   Param,
   Delete,
   Put,
-  Query,
   Res,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { CinemaService } from './cinema.service';
 import { Cinema } from './entities/cinema.entity';
@@ -17,6 +17,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from 'src/logger/logger.service';
 import { Response } from 'express';
 import { Messages } from 'src/constant/Constant';
+import { AuthGuard } from '@nestjs/passport';
+
 
 @ApiTags('Cinema')
 @Controller('cinema')
@@ -28,10 +30,11 @@ export class CinemaController {
     this.logger.setContext('CinemaService');
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('/create')
   async create(@Body() cinema: Cinema, @Res() res: Response): Promise<void> {
     try {
-      const existCinema = await this.cinemaService.search(cinema);
+      const existCinema = await this.cinemaService.existCinema(cinema);
       if (existCinema) {
         res.status(HttpStatus.CONFLICT).send({
           message:
@@ -86,6 +89,7 @@ export class CinemaController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Put('/update/:id')
   async update(
     @Param('id') id: number,
@@ -112,6 +116,7 @@ export class CinemaController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Delete('/delete/:id')
   async remove(@Param('id') id: number, @Res() res: Response): Promise<void> {
     try {
@@ -135,6 +140,7 @@ export class CinemaController {
     }
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Post('/restore/:id')
   async restore(@Param('id') id: number, @Res() res: Response): Promise<void> {
     try {
@@ -147,20 +153,6 @@ export class CinemaController {
       }
       res.status(200).send({
         message: Messages.RESTORE_SUCCESS,
-        data: data,
-        status: HttpStatus.OK,
-      });
-    } catch (e) {
-      this.logger.error(e.message);
-      throw new HttpException(e.message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  @Get('/search')
-  async search(@Query() query, @Res() res: Response): Promise<void> {
-    try {
-      const data = await this.cinemaService.search(query);
-      res.status(HttpStatus.OK).send({
         data: data,
         status: HttpStatus.OK,
       });

@@ -35,12 +35,14 @@ export class AuthController {
     @Res() res: Response,
   ): Promise<void> {
     try {
-      const existUser = await this.userService.search(user);
+      const existUser = await this.userService.checkExist(user);
+      
       if (existUser) {
         res.status(HttpStatus.CONFLICT).send({
           message: `${user.username} ` + Messages.DUPLICATE_DATA,
           status: HttpStatus.CONFLICT,
         });
+        return;
       }
 
       const data = await this.authService.register(user);

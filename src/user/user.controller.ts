@@ -10,6 +10,7 @@ import {
   HttpException,
   HttpStatus,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiTags } from '@nestjs/swagger';
@@ -17,9 +18,11 @@ import { User } from './entities/user.entity';
 import { Messages } from 'src/constant/Constant';
 import { Response } from 'express';
 import { LoggerService } from 'src/logger/logger.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @ApiTags('User')
 @Controller('users')
+@UseGuards(AuthGuard('jwt'))
 export class UserController {
   constructor(
     private readonly userService: UserService,

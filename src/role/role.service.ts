@@ -36,6 +36,14 @@ export class RoleService {
     return this.roleRepository.findOne({ where: { id }, withDeleted: true });
   }
 
+  async checkExist(data: Role): Promise<Role> {
+    return this.roleRepository.findOne({
+      where: {
+        name: data.name
+      }
+    })
+  }
+
   async search(query: Role): Promise<Role[]> {
     return this.roleRepository
       .createQueryBuilder('Role')

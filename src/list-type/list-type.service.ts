@@ -11,30 +11,42 @@ export class ListTypeService {
     private readonly listTypeRepository: Repository<ListType>,
   ) {}
 
-  async create(data): Promise<ListType> {
+  async create(data: ListType | any): Promise<ListType> {
     return this.listTypeRepository.save(data);
   }
 
   async update(id: number, data): Promise<any> {
-    return this.listTypeRepository.update(id, data);
+    const listType = await this.listTypeRepository.findOne({
+      where: {
+        movie_id: id,
+      },
+    });
+    await this.listTypeRepository.update(listType.id, data);
+    return this.listTypeRepository.find({
+      where: {
+        movie_id: id,
+      },
+      relations: ['type_id'],
+      select: ['type_id'],
+    });
   }
 
   async relationMovie(movie: Movie): Promise<ListType[]> {
     return this.listTypeRepository.find({
       where: {
-        movie_id: movie.id
+        movie_id: movie.id,
       },
       relations: ['type_id'],
-      select: ['type_id']
-    })
+      select: ['type_id'],
+    });
   }
 
-  async existTypeOneMovie(movie: Movie): Promise<Number> {
-    return this.listTypeRepository.count({
+  async existTypeOneMovie(movie: Movie): Promise<ListType[]> {
+    return this.listTypeRepository.find({
       where: {
         movie_id: movie.id,
-        type_id: movie.type_id
-      }
+        type_id: movie.type_id,
+      },
     });
   }
 }

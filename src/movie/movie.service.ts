@@ -25,8 +25,8 @@ export class MovieService {
   }
 
   async findOne(id: number): Promise<Movie> {
-    return this.movieRepository.findOne({ 
-      where: { id }
+    return this.movieRepository.findOne({
+      where: { id },
     });
   }
 
@@ -42,7 +42,7 @@ export class MovieService {
     return this.movieRepository.findOne({ where: { id } });
   }
 
-  async remove(id: number): Promise<any> {
+  async remove(id: number): Promise<void> {
     await this.movieRepository.softDelete(id);
   }
 

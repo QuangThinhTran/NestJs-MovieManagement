@@ -16,7 +16,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(decodeToken: any) {
+  async validate(decodeToken: string) {
     return decodeToken;
   }
 }

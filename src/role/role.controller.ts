@@ -33,7 +33,8 @@ export class RoleController {
   @Post('/create')
   async create(@Body() newRole: Role, @Res() res: Response): Promise<void> {
     try {
-      const existRole = await this.roleService.search(newRole);
+      const existRole = await this.roleService.checkExist(newRole);
+
       if (existRole) {
         res.status(HttpStatus.CONFLICT).send({
           message: `${newRole.name} ` + Messages.DUPLICATE_DATA,

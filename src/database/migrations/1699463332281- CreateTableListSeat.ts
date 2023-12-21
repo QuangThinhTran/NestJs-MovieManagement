@@ -33,17 +33,7 @@ export class CreateTableListSeat1699463332281 implements MigrationInterface {
               name: 'created_at',
               type: 'datetime',
               default: 'now()',
-            },
-            {
-              name: 'updated_at',
-              type: 'datetime',
-              isNullable: true,
-            },
-            {
-              name: 'deleted_at',
-              type: 'datetime',
-              isNullable: true,
-            },
+            }
           ],
         }),
       );
