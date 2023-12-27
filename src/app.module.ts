@@ -16,6 +16,8 @@ import { MovieShowTimeModule } from './movie-show-time/movie-show-time.module';
 import { SeatModule } from './seat/seat.module';
 import { TicketModule } from './ticket/ticket.module';
 import { SearchModule } from './search/search.module';
+import { MailModule } from './mail/mail.module';
+import { MailService } from './mail/mail.service';
 
 @Module({
   imports: [
@@ -32,10 +34,11 @@ import { SearchModule } from './search/search.module';
     MovieShowTimeModule,
     SeatModule,
     TicketModule,
-    SearchModule
+    SearchModule,
+    MailModule
   ],
   controllers: [AppController],
-  providers: [AppService, TimezoneService],
+  providers: [AppService, TimezoneService, MailService],
 })
 export class AppModule {
   constructor(private readonly timezoneService: TimezoneService) {
