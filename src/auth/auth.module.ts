@@ -7,18 +7,20 @@ import { AuthService } from './auth.service';
 import { LoggerService } from 'src/logger/logger.service';
 import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from './../strategy/JWT.strategy';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { MailService } from './../mail/mail.service';
+// import * as dotenv from 'dotenv';
+// dotenv.config();
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+  
+  TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: process.env.JWT_KEY,
       signOptions: { expiresIn: '5m' },
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, UserService, LoggerService, LocalStrategy],
+  providers: [AuthService, UserService, LoggerService, LocalStrategy, MailService],
 })
 export class AuthModule {}

@@ -17,6 +17,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { LoggerService } from 'src/logger/logger.service';
 import { Auth } from './enities/auth.enity';
 import { AuthService } from './auth.service';
+import { MailService } from 'src/mail/mail.service';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -24,6 +25,7 @@ export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly userService: UserService,
+    private readonly mailService: MailService,
     private readonly logger: LoggerService,
   ) {
     this.logger.setContext('AuthService');
@@ -46,6 +48,7 @@ export class AuthController {
       }
 
       const data = await this.authService.register(user);
+      await this.mailService.mailRegister(data.email, data.username);
       res.status(HttpStatus.CREATED).send({
         message: Messages.CREATE_SUCCESS,
         data: data,
