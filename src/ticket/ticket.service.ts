@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Ticket } from './entities/ticket.entity';
 import { Repository } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class TicketService {
@@ -14,7 +15,7 @@ export class TicketService {
         return this.ticketService.save(data)
     }
 
-    async getTicket(id: number): Promise<Ticket>
+    async getTicket(id: number | User): Promise<Ticket>
     {
         return this.ticketService.findOne({
             where: {

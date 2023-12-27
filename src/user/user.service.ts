@@ -16,9 +16,9 @@ export class UserService {
     });
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: number | any ): Promise<User> {
     return this.userRepository.findOne({
-      where: { id },
+      where: { id : id },
       relations: ['role_id'],
     });
   }

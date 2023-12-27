@@ -9,14 +9,18 @@ import { Constant, Messages } from 'src/constant/Constant';
 import { ListSeat } from 'src/list-seat/entities/list-seat.entity';
 import { SeatService } from 'src/seat/seat.service';
 import { AuthGuard } from '@nestjs/passport';
+import { MailService } from 'src/mail/mail.service';
+import { UserService } from 'src/user/user.service';
 
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 @Controller('ticket')
 export class TicketController {
   constructor(
     private readonly ticketService: TicketService,
     private readonly listSeatService: ListSeatService,
     private readonly seatService: SeatService,
+    private readonly userService: UserService,
+    private readonly mailService: MailService,
     private readonly logger: LoggerService
     ) {
       this.logger.setContext('TicketService')
@@ -37,6 +41,9 @@ export class TicketController {
             })
         }
 
+        const user = await this.userService.findOne(ticket.user_id)
+
+        await this.mailService.mailBookingTicket(user.email, ticket)
         res.status(HttpStatus.CREATED).send({
           'data': ticket
         })
